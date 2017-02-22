@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd"
+	   default-lazy-init="false">
+
+	<!-- zookeeper -->
+	<bean id="thriftZookeeper" class="ZookeeperFactory" destroy-method="close">
+		<property name="zkHosts"
+			value="192.168.8.236:2181" />
+		<property name="namespace" value="dev" />
+		<property name="connectionTimeout" value="3000" />
+		<property name="sessionTimeout" value="3000" />
+		<property name="singleton" value="true" />
+	</bean>
+	<bean id="serviceAddressRegister" class="ThriftServerAddressRegisterZookeeper"  destroy-method="close">
+      <property name="zkClient" ref="thriftZookeeper" />
+	</bean>
+	<bean id="echoSerivceImpl" class="EchoSerivceImpl" />
+
+	<bean id="echoSerivce" class="ThriftServiceServerFactory"
+		destroy-method="close">
+		<property name="service" ref="echoSerivceImpl" />
+		<property name="port" value="9000" />
+		<property name="version" value="1.0.0" />
+		<property name="weight" value="1" />
+		<property name="thriftServerAddressRegister" ref="serviceAddressRegister" />
+	</bean>
+	
+	<bean id="echoSerivce1" class="ThriftServiceServerFactory"
+		destroy-method="close">
+		<property name="service" ref="echoSerivceImpl" />
+		<property name="port" value="9001" />
+		<property name="version" value="1.0.0" />
+		<property name="weight" value="1" />
+		<property name="thriftServerAddressRegister" ref="serviceAddressRegister" />
+	</bean>
+	
+	<bean id="echoSerivce2" class="ThriftServiceServerFactory"
+		destroy-method="close">
+		<property name="service" ref="echoSerivceImpl" />
+		<property name="port" value="9002" />
+		<property name="version" value="1.0.0" />
+		<property name="weight" value="1" />
+		<property name="thriftServerAddressRegister" ref="serviceAddressRegister" />
+	</bean>
+</beans>
