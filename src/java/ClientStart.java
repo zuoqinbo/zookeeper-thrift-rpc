@@ -15,12 +15,11 @@ public class ClientStart {
 		try {
 			final ApplicationContext context = new ClassPathXmlApplicationContext("spring-context-thrift-client.xml");
 			EchoSerivce.Iface echoSerivce = (EchoSerivce.Iface) context.getBean("echoSerivce");
-			System.out.println(echoSerivce.echo("hello--echo"));
+			System.out.println(echoSerivce.echo("hello--echo--"));
 			//关闭连接的钩子
 			Runtime.getRuntime().addShutdownHook(new Thread() {
 				public void run() {
-					Map<String,ThriftServiceClientProxyFactory>
-							clientMap = context.getBeansOfType(ThriftServiceClientProxyFactory.class);
+					Map<String,ThriftServiceClientProxyFactory> clientMap = context.getBeansOfType(ThriftServiceClientProxyFactory.class);
 					for(Map.Entry<String, ThriftServiceClientProxyFactory> client : clientMap.entrySet()){
 						System.out.println("serviceName : "+client.getKey() + ",class obj: "+client.getValue());
 						client.getValue().close();

@@ -19,9 +19,8 @@
     <!-- zookeeper   -->
     <bean id="thriftZookeeper" class="ZookeeperFactory"
 		destroy-method="close">
-		<property name="zkHosts"
-			value="zookeeper://192.168.8.236:2181?backup=192.168.8.237:2181,192.168.8.238:2181" />
-		<property name="namespace" value="cn.slimsmart.thrift.rpc.demo" />
+		<property name="zkHosts" value="127.0.0.1:2181" />
+		<property name="namespace" value="dev" />
 		<property name="connectionTimeout" value="3000" />
 		<property name="sessionTimeout" value="3000" />
 		<property name="singleton" value="true" />
@@ -31,7 +30,7 @@
         <property name="idleTime" value="1800000" />
         <property name="serverAddressProvider">
         	<bean class="ThriftServerAddressProviderZookeeper">
-        		<property name="service" value="cn.slimsmart.thrift.rpc.demo.EchoSerivce" />
+        		<property name="service" value="EchoSerivce" />
         		<property name="version" value="1.0.0" />
         		<property name="zkClient" ref="thriftZookeeper" />
         	</bean>
